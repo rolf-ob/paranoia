@@ -3,6 +3,7 @@
 GLFWwindow* initialize();
 void handle_input(GLFWwindow* window);
 void draw(GLFWwindow* window);
+void init_drawing();
 
 int main() {
     GLFWwindow* window = initialize();
@@ -10,7 +11,7 @@ int main() {
         return -1;
     }
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    init_drawing();
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
