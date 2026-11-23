@@ -21,7 +21,8 @@ add_executable(OpenGL src/main.cpp src/glad.c
     src/input.cpp
     src/graphics.h
     src/initialization.cpp
-    src/shader.cpp)
+    src/shaders.cpp
+    src/shaders.h)
 
 target_include_directories(OpenGL PRIVATE include)
 

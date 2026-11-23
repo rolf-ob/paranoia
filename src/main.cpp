@@ -2,8 +2,9 @@
 
 GLFWwindow* initialize();
 void handle_input(GLFWwindow* window);
-void draw(GLFWwindow* window);
 void init_drawing();
+void draw(GLFWwindow* window);
+void cleanup_drawing();
 
 int main() {
     GLFWwindow* window = initialize();
@@ -19,5 +20,7 @@ int main() {
         handle_input(window);
         draw(window);
     }
+    cleanup_drawing();
+
     glfwTerminate();
 }
