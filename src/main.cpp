@@ -1,26 +1,14 @@
-#include "graphics.h"
+#include <iostream>
+#include <exception>
 
-GLFWwindow* initialize();
-void handle_input(GLFWwindow* window);
-void init_drawing();
-void draw(GLFWwindow* window);
-void cleanup_drawing();
+#include "game.h"
 
 int main() {
-    GLFWwindow* window = initialize();
-    if (!window) {
-        return -1;
+    try {
+        Game game;
+        game.run();
+    } catch (const std::exception& e) {
+        std::cerr << "Fatal error: " << e.what() << "\n";
+        return 1;
     }
-
-    init_drawing();
-
-    while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
-        
-        handle_input(window);
-        draw(window);
-    }
-    cleanup_drawing();
-
-    glfwTerminate();
 }

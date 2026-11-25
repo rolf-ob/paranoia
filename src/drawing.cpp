@@ -1,44 +1,51 @@
+#include "game.h"
 #include "graphics.h"
 #include "shaders.h"
 
-static GLuint vao;
-static GLuint vbo;
-static GLuint shader_program;
+void Game::init_drawing() {
+    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 
-void init_drawing() {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
-    float positions[6] = {
-        -0.5f,  0.5f,
-         0.0f, -0.5f,
-         0.5f,  0.5f
+    float positions[8] = {
+        -0.5, -0.5,
+         0.5, -0.5,
+         0.5,  0.5,
+        -0.5,  0.5,
     };
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    unsigned int indices[6] {
+        0, 1, 2,
+        2, 3, 0
+    };
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glGenVertexArrays(1, &m_vao);
+    glBindVertexArray(m_vao);
+
+    glGenBuffers(1, &m_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (const void*)0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
-    ShaderProgramSource source = parse_shader("res/shaders/basic.shader");
-    shader_program = create_shader(source.vertex_source, source.fragment_source);
-    glUseProgram(shader_program);
+    glGenBuffers(1, &m_ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+
+    ShaderProgramSource source = parse_shader(RES_DIR "shaders/basic.shader");
+    m_shader_program = create_shader(source.vertex_source, source.fragment_source);
+    glUseProgram(m_shader_program);
 }
 
-void draw(GLFWwindow* window) {
+void Game::cleanup_drawing() {
+    glDeleteVertexArrays(1, &m_vao);
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteBuffers(1, &m_ibo);
+    glDeleteProgram(m_shader_program);
+}
+
+void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    glfwSwapBuffers(window);
-}
-
-void cleanup_drawing() {
-    glDeleteProgram(shader_program);
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
+    glBindVertexArray(m_vao);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

@@ -1,17 +1,15 @@
-#include "graphics.h"
-
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <stdexcept>
 
-struct ShaderProgramSource {
-    std::string vertex_source;
-    std::string fragment_source;
-};
+#include "graphics.h"
+#include "shaders.h"
 
 ShaderProgramSource parse_shader(const std::string& filepath) {
     std::ifstream stream(filepath);
+    if (!stream.is_open())
+        throw std::runtime_error("Could not open shader file: " + filepath);
 
     enum class ShaderType {
         NONE = -1, VERTEX = 0, FRAGMENT = 1
@@ -48,10 +46,14 @@ static unsigned int compile_shader(unsigned int type, const std::string& source)
         glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
         char* message = (char*)alloca(length * sizeof(char));
         glGetShaderInfoLog(id, length, &length, message);
-        std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment") << " shader!" << std::endl;
-        std::cout << message << std::endl;
+
         glDeleteShader(id);
-        return 0;
+        throw std::runtime_error(
+            std::string("Failed to compile ") +
+            (type == GL_VERTEX_SHADER ? "vertex" : "fragment") +
+            std::string(" shader!\n") +
+            message
+        );
     }
     
     return id;

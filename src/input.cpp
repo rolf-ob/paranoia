@@ -1,6 +1,7 @@
+#include "game.h"
 #include "graphics.h"
 
-void handle_input(GLFWwindow* window) {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+void Game::handle_input() {
+    if (glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(m_window, true);
 }
