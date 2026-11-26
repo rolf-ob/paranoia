@@ -20,6 +20,8 @@ add_executable(OpenGL include/glad.c
     src/physics.cpp
     src/drawing.cpp
     src/shaders.cpp
+    src/vertex_buffer.cpp
+    src/index_buffer.cpp
 )
 
 target_include_directories(OpenGL PRIVATE src include)

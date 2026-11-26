@@ -1,7 +1,7 @@
-#include <cassert>
-
 #include "game.h"
 #include "graphics.h"
+#include "vertex_buffer.h"
+#include "index_buffer.h"
 #include "shaders.h"
 
 void Game::init_drawing() {
@@ -22,29 +22,24 @@ void Game::init_drawing() {
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
-    glGenBuffers(1, &m_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-
+    m_vb = std::make_unique<VertexBuffer>(positions, sizeof(positions));
+    
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (const void*)0);
 
-    glGenBuffers(1, &m_ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+    m_ib = std::make_unique<IndexBuffer>(indices, 6);
 
     ShaderProgramSource source = parse_shader(RES_DIR "shaders/basic.shader");
     m_shader_program = create_shader(source.vertex_source, source.fragment_source);
     glUseProgram(m_shader_program);
 
     m_color = glGetUniformLocation(m_shader_program, "u_color");
-    m_blue = 0.0f;
 }
 
 void Game::cleanup_drawing() {
+    m_ib.reset();
+    m_vb.reset();
     glDeleteVertexArrays(1, &m_vao);
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteBuffers(1, &m_ibo);
     glDeleteProgram(m_shader_program);
 }
 
@@ -52,6 +47,7 @@ void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBindVertexArray(m_vao);
-    glUniform4f(m_color, 0.0f, 0.0f, m_blue, 1.0f);
+    
+    glUniform4f(m_color, 0.0f, 0.0f, 1.0, 1.0f);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

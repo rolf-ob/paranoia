@@ -2,6 +2,8 @@
 #include <stdexcept>
 
 #include "graphics.h"
+#include "vertex_buffer.h"
+#include "index_buffer.h"
 #include "game.h"
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
