@@ -28,6 +28,7 @@ Game::Game() {
     }
     glfwMakeContextCurrent(m_window);
     glfwSetFramebufferSizeCallback(m_window, framebuffer_size_callback);
+    glfwSwapInterval(1);
 
     if (!gladLoadGL()) {
         glfwTerminate();
@@ -47,6 +48,7 @@ void Game::run() {
         glfwPollEvents();
         
         handle_input();
+        update();
         draw();
 
         glfwSwapBuffers(m_window);

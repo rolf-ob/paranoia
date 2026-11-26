@@ -21,4 +21,6 @@ private:
     unsigned int m_vbo;
     unsigned int m_ibo;
     unsigned int m_shader_program;
+    int m_color;
+    float m_blue;
 };

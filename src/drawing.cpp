@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "game.h"
 #include "graphics.h"
 #include "shaders.h"
@@ -34,6 +36,9 @@ void Game::init_drawing() {
     ShaderProgramSource source = parse_shader(RES_DIR "shaders/basic.shader");
     m_shader_program = create_shader(source.vertex_source, source.fragment_source);
     glUseProgram(m_shader_program);
+
+    m_color = glGetUniformLocation(m_shader_program, "u_color");
+    m_blue = 0.0f;
 }
 
 void Game::cleanup_drawing() {
@@ -47,5 +52,6 @@ void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBindVertexArray(m_vao);
+    glUniform4f(m_color, 0.0f, 0.0f, m_blue, 1.0f);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
