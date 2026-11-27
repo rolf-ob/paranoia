@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "graphics/renderer.h"
 #include "graphics/shader.h"
+#include "graphics/texture.h"
 #include "graphics/vertex_array.h"
 #include "graphics/vertex_buffer.h"
 #include "graphics/index_buffer.h"

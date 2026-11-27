@@ -15,7 +15,9 @@ FetchContent_MakeAvailable(glfw)
 
 add_executable(
     OpenGL
+    
     include/glad.c
+    include/stb_image/stb_image.cpp
 
     src/main.cpp
     src/game.cpp
@@ -23,11 +25,12 @@ add_executable(
     src/physics.cpp
     src/drawing.cpp
     
+    src/graphics/renderer.cpp
+    src/graphics/shader.cpp
     src/graphics/vertex_array.cpp
     src/graphics/vertex_buffer.cpp
     src/graphics/index_buffer.cpp
-    src/graphics/shader.cpp
-    src/graphics/renderer.cpp
+    src/graphics/texture.cpp
 )
 
 target_include_directories(OpenGL PRIVATE src include)

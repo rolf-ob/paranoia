@@ -92,16 +92,25 @@ void Shader::unbind() const {
     glUseProgram(0);
 }
 
-void Shader::set_uniform_4f(const std::string& name, float v0, float v1, float v2, float v3) {
+void Shader::set_uniform_1i(const std::string &name, int value) {
+    glUniform1i(get_uniform_location(name), value);
+}
+
+void Shader::set_uniform_1f(const std::string &name, float value) {
+    glUniform1f(get_uniform_location(name), value);
+}
+
+void Shader::set_uniform_4f(const std::string &name, float v0, float v1, float v2, float v3)
+{
     glUniform4f(get_uniform_location(name), v0, v1, v2, v3);
 }
 
-unsigned int Shader::get_uniform_location(const std::string& name) {
+int Shader::get_uniform_location(const std::string& name) {
     if (m_uniform_location_cache.find(name) != m_uniform_location_cache.end())
         return m_uniform_location_cache[name];
 
     int location = glGetUniformLocation(m_renderer_id, name.c_str());
-    if (location == -1) 
+    if (location == -1)
         std::cout << "Warning: uniform " << name << " doesn't exist!" << std::endl;
     
     m_uniform_location_cache[name] = location;
