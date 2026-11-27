@@ -1,11 +1,12 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "graphics.h"
-#include "vertex_array.h"
-#include "vertex_buffer.h"
-#include "index_buffer.h"
 #include "game.h"
+#include "graphics.h"
+#include "graphics/vertex_array.h"
+#include "graphics/vertex_buffer.h"
+#include "graphics/index_buffer.h"
+#include "graphics/shader.h"
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);

@@ -1,10 +1,10 @@
 #include "game.h"
 #include "graphics.h"
-#include "vertex_array.h"
-#include "vertex_buffer.h"
-#include "vertex_buffer_layout.h"
-#include "index_buffer.h"
-#include "shaders.h"
+#include "graphics/vertex_array.h"
+#include "graphics/vertex_buffer.h"
+#include "graphics/vertex_buffer_layout.h"
+#include "graphics/index_buffer.h"
+#include "graphics/shader.h"
 
 void Game::init_drawing() {
     glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
@@ -30,25 +30,22 @@ void Game::init_drawing() {
     m_va->add_buffer(*m_vb, layout);
     m_ib = std::make_unique<IndexBuffer>(indices, 6);
 
-    ShaderProgramSource source = parse_shader(RES_DIR "shaders/basic.shader");
-    m_shader_program = create_shader(source.vertex_source, source.fragment_source);
-    glUseProgram(m_shader_program);
-
-    m_u_color_location = glGetUniformLocation(m_shader_program, "u_color");
+    m_shader = std::make_unique<Shader>(RES_DIR "shaders/basic.shader");
+    m_shader->bind();
 }
 
 void Game::cleanup_drawing() {
     m_ib.reset();
     m_vb.reset();
     m_va.reset();
-    glDeleteProgram(m_shader_program);
+    m_shader.reset();
 }
 
 void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     m_va->bind();
-    glUniform4f(m_u_color_location, 0.0f, 0.0f, 1.0, 1.0f);
+    m_shader->set_uniform_4f("u_color", 0.0f, 0.0f, 1.0f, 1.0f);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

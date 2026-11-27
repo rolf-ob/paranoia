@@ -13,17 +13,20 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(glfw)
 
-add_executable(OpenGL include/glad.c
+add_executable(
+    OpenGL
+    include/glad.c
+
     src/main.cpp
     src/game.cpp
     src/input.cpp
     src/physics.cpp
     src/drawing.cpp
-    src/shaders.cpp
-    src/vertex_array.cpp
-    src/vertex_buffer.cpp
-    src/vertex_buffer_layout.h
-    src/index_buffer.cpp
+    
+    src/graphics/vertex_array.cpp
+    src/graphics/vertex_buffer.cpp
+    src/graphics/index_buffer.cpp
+    src/graphics/shader.cpp
 )
 
 target_include_directories(OpenGL PRIVATE src include)

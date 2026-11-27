@@ -6,6 +6,7 @@ struct GLFWwindow;
 class VertexArray;
 class VertexBuffer;
 class IndexBuffer;
+class Shader;
 
 class Game {
 public:
@@ -25,6 +26,6 @@ private:
     std::unique_ptr<VertexArray> m_va;
     std::unique_ptr<VertexBuffer> m_vb;
     std::unique_ptr<IndexBuffer> m_ib;
-    unsigned int m_shader_program = 0;
-    int m_u_color_location = -1;
+    std::unique_ptr<Shader> m_shader;
+    
 };
