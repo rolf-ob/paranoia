@@ -27,6 +27,7 @@ add_executable(
     src/graphics/vertex_buffer.cpp
     src/graphics/index_buffer.cpp
     src/graphics/shader.cpp
+    src/graphics/renderer.cpp
 )
 
 target_include_directories(OpenGL PRIVATE src include)

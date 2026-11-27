@@ -1,6 +1,7 @@
 #include <cstdint>
 
 #include "vertex_array.h"
+#include "vertex_buffer_layout.h"
 #include "graphics.h"
 
 VertexArray::VertexArray() {

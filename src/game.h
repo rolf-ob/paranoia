@@ -7,6 +7,7 @@ class VertexArray;
 class VertexBuffer;
 class IndexBuffer;
 class Shader;
+class Renderer;
 
 class Game {
 public:
@@ -27,5 +28,6 @@ private:
     std::unique_ptr<VertexBuffer> m_vb;
     std::unique_ptr<IndexBuffer> m_ib;
     std::unique_ptr<Shader> m_shader;
+    std::unique_ptr<Renderer> m_renderer;
     
 };
