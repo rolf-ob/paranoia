@@ -20,7 +20,9 @@ add_executable(OpenGL include/glad.c
     src/physics.cpp
     src/drawing.cpp
     src/shaders.cpp
+    src/vertex_array.cpp
     src/vertex_buffer.cpp
+    src/vertex_buffer_layout.h
     src/index_buffer.cpp
 )
 

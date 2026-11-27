@@ -1,6 +1,8 @@
 #include "game.h"
 #include "graphics.h"
+#include "vertex_array.h"
 #include "vertex_buffer.h"
+#include "vertex_buffer_layout.h"
 #include "index_buffer.h"
 #include "shaders.h"
 
@@ -19,13 +21,11 @@ void Game::init_drawing() {
         2, 3, 0
     };
 
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
-
+    m_va = std::make_unique<VertexArray>();
     m_vb = std::make_unique<VertexBuffer>(positions, sizeof(positions));
-    
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (const void*)0);
+    VertexBufferLayout layout;
+    layout.push<float>(2);
+    m_va->add_buffer(*m_vb, layout);
 
     m_ib = std::make_unique<IndexBuffer>(indices, 6);
 
@@ -39,14 +39,14 @@ void Game::init_drawing() {
 void Game::cleanup_drawing() {
     m_ib.reset();
     m_vb.reset();
-    glDeleteVertexArrays(1, &m_vao);
+    m_va.reset();
     glDeleteProgram(m_shader_program);
 }
 
 void Game::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glBindVertexArray(m_vao);
+    m_va->bind();
     
     glUniform4f(m_color, 0.0f, 0.0f, 1.0, 1.0f);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

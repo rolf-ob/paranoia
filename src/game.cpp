@@ -2,6 +2,7 @@
 #include <stdexcept>
 
 #include "graphics.h"
+#include "vertex_array.h"
 #include "vertex_buffer.h"
 #include "index_buffer.h"
 #include "game.h"
