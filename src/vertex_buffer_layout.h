@@ -30,7 +30,7 @@ public:
     VertexBufferLayout()
         : m_stride(0) {}
     
-    template<typename T>
+    template<typename type>
     void push(unsigned int count) {
         static_assert(false);
     }

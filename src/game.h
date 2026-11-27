@@ -22,10 +22,9 @@ private:
     void draw();
 
     GLFWwindow* m_window = nullptr;
-    unsigned int m_vao = 0;
     std::unique_ptr<VertexArray> m_va;
     std::unique_ptr<VertexBuffer> m_vb;
     std::unique_ptr<IndexBuffer> m_ib;
     unsigned int m_shader_program = 0;
-    int m_color = 0;
+    int m_u_color_location = -1;
 };
