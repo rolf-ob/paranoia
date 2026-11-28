@@ -8,7 +8,10 @@
 #include "graphics/index_buffer.h"
 
 void Game::init_drawing() {
-    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     float positions[] = {
         -0.5, -0.5, 0.0f, 0.0f,
@@ -21,9 +24,6 @@ void Game::init_drawing() {
         0, 1, 2,
         2, 3, 0
     };
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_renderer = std::make_unique<Renderer>();
     m_shader = std::make_unique<Shader>(RES_DIR "shaders/basic.shader");
@@ -41,6 +41,7 @@ void Game::init_drawing() {
 void Game::cleanup_drawing() {
     m_renderer.reset();
     m_shader.reset();
+    m_texture.reset();
     m_va.reset();
     m_vb.reset();
     m_ib.reset();
@@ -52,6 +53,7 @@ void Game::draw() {
     m_shader->bind();
     m_texture->bind();
     m_shader->set_uniform_1i("u_texture", 0);
+    m_shader->set_uniform_4f("u_color", 1.0f, 1.0f, 1.0f, 0.5f);
 
     m_renderer->draw(*m_va, *m_ib, *m_shader);
 }
