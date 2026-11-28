@@ -1,5 +1,8 @@
 #pragma once
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include <memory>
 
 class Renderer;
@@ -28,9 +31,12 @@ private:
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<Shader> m_shader;
     std::unique_ptr<Texture> m_texture;
+
     std::unique_ptr<VertexArray> m_va;
     std::unique_ptr<VertexBuffer> m_vb;
     std::unique_ptr<IndexBuffer> m_ib;
+
+    glm::mat4 m_proj;
     
     GLFWwindow* m_window = nullptr;
 };

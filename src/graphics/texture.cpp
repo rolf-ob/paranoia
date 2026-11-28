@@ -1,5 +1,6 @@
-#include "graphics.h"
 #include "stb_image/stb_image.h"
+
+#include "graphics.h"
 #include "texture.h"
 
 Texture::Texture(const std::string& filepath)

@@ -10,7 +10,7 @@
 #include "graphics/vertex_buffer.h"
 #include "graphics/index_buffer.h"
 
-static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 

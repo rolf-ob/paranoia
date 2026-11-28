@@ -1,3 +1,6 @@
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 #include "game.h"
 #include "graphics/renderer.h"
 #include "graphics/shader.h"
@@ -28,6 +31,7 @@ void Game::init_drawing() {
     m_renderer = std::make_unique<Renderer>();
     m_shader = std::make_unique<Shader>(RES_DIR "shaders/basic.shader");
     m_texture = std::make_unique<Texture>(RES_DIR "textures/catboom.png");
+
     m_va = std::make_unique<VertexArray>();
     m_vb = std::make_unique<VertexBuffer>(positions, sizeof(positions));
     VertexBufferLayout layout;
@@ -36,6 +40,8 @@ void Game::init_drawing() {
     layout.push<float>(2);
     m_va->add_buffer(*m_vb, layout);
     m_ib = std::make_unique<IndexBuffer>(indices, 6);
+
+    m_proj = glm::ortho(-2.0f, 2.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 }
 
 void Game::cleanup_drawing() {
@@ -53,7 +59,8 @@ void Game::draw() {
     m_shader->bind();
     m_texture->bind();
     m_shader->set_uniform_1i("u_texture", 0);
-    m_shader->set_uniform_4f("u_color", 1.0f, 1.0f, 1.0f, 0.5f);
+    //m_shader->set_uniform_4f("u_color", 1.0f, 1.0f, 1.0f, 0.5f);
+    m_shader->set_uniform_mat4f("u_mvp", m_proj);
 
     m_renderer->draw(*m_va, *m_ib, *m_shader);
 }
